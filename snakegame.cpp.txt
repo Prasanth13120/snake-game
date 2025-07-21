@@ -1,0 +1,171 @@
+#include<iostream>
+#include<windows.h>
+#include<conio.h>
+#include<ctime>
+#include<stdlib.h>
+//#include<vector.h>
+using namespace std;
+int b= 25,c=50;
+COORD p;
+int i,j;
+char dir;
+//vector<int>q;
+//vector<int>g;
+//q.push_back(w);
+//g.push_back(z);
+#define u 72
+#define d 80
+#define r 77
+#define l 75
+class food
+{
+public:
+    int x,y;
+    food()
+    {
+        srand(time(NULL));
+        gfood();
+    }
+    void gfood()
+    {
+        x=rand()%24 + 1;
+        y=rand()%49 + 1;
+    }
+    int rtx()
+    {
+        return x;
+    }
+int rty()
+    {
+        return y;
+    }
+};
+int w=13,z=25,len=1;
+
+
+    void box(int h,int v)
+    {
+        for(i=0;i<=b;i++)
+        {
+        for(j=0;j<=c;j++)
+        {
+            if(i==0||i==b||j==0||j==c)
+                cout<<"#";
+           else if(i==w&&j==z)
+                cout<<"o";
+            else if(i==h&&j==v)
+                cout<<"*";
+            else
+            {
+                cout<<" ";
+               /*bool snakepos=false;
+               for(int t=0;t<q.size();t++)
+               {
+                   if(i==q[k]&&j==g[k])
+                   {
+                       cout<<"o";
+                       snakepos=true;
+                   }
+               }
+               if(!snakepos)
+                cout<<" ";*/
+            }
+        }
+        cout<<"\n";
+    }
+}
+int setdir(char p)
+{
+    dir=p;
+}
+int movesnake()
+{
+    switch(dir)
+    {
+    case u:
+        w--;
+        break;
+    case d:
+        (w++);
+        break;
+    case r:
+        (z++);
+        break;
+    case l:
+        z--;
+        break;
+    }
+    //q.push_back(w);
+    //g.push_back(z);
+    //if(q.size()>len||g.size()>len)
+    //{
+    //    q.erase(q.begin());
+    //    g.erase(g.begin());
+   // }
+}
+bool colloid()
+{
+    if(w==0||w==b||z==0||z==c)
+    return true;
+return false;
+}
+bool eaten(int h,int v)
+{
+    if(h==w&&v==z)
+        return true;
+    return false;
+}
+int grow()
+{
+    len++;
+}
+int main()
+{
+    int h,v;
+    food o;
+    h=o.rtx();
+    v=o.rty();
+    while(true)
+    {
+        Sleep(20);
+    box(h,v);
+    //y++;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),{0,0});
+    if(kbhit())
+    {
+        switch(getch())
+       {
+        case u:
+        setdir(u);
+        break;
+        case d:
+        setdir(d);
+        break;
+        case r:
+        setdir(r);
+        break;
+        case l:
+        setdir(l);
+        break;
+       }
+    }
+    movesnake();
+    if(colloid())
+    {
+        cout<<"GAME OVER";
+        cout<<"\nSCORE:"<<(len-1);
+        break;
+    }
+    if(eaten(h,v))
+    {
+        grow();
+        o.gfood();
+        h=o.rtx();
+        v=o.rty();
+
+    }
+
+    }
+
+
+}
